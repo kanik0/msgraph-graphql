@@ -49,7 +49,7 @@
     <script class='pre'>
         var applicationConfig = {
             redirectUri: 'http://localhost:1337',
-            clientID: '{clientId}',
+            clientID: '',
             scopes: ['openid', 'profile', 'User.ReadWrite',
             'User.Read.All', 'Sites.ReadWrite.All', 'Contacts.ReadWrite',
             'Calendars.Read', 'Mail.Read', 'Device.Read', 

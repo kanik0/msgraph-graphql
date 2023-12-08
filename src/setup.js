@@ -179,7 +179,45 @@ function generator(dependence, entities, complexTypes, enums, entitySets, single
     defs = _.union(defs, complexDefs);
     defs = _.union(defs, queryDefs);
     defs = _.union(defs, additionalScalarTypes);
-    saveCodeToFile('src/build/schema.graphql', false, defs.join(' '));
+    defsJoined = defs.join(' ').replace(/externalConnectors\.(\w+)/g,'$1');
+    defsJoined = defsJoined.replace(/identityGovernance\.(\w+)/g,'$1');
+    defsJoined = defsJoined.replace(/graph\.(\w+)/g,'$1');
+    defsJoined = defsJoined.replace(/termStore\.(\w+)/g,'$1');
+    defsJoined = defsJoined.replace(/security\.(\w+)/g,'$1');
+    defsJoined = defsJoined.replace(/callRecords\.(\w+)/g,'$1');
+    defsJoined = defsJoined.replace(/Edm\.(\w+)/g,'$1');
+
+    defsJoined = defsJoined.replace(/type identity {[\s\S]*?}/g, '');
+    defsJoined = defsJoined + "\n\ntype identity {\n" +
+        " type: identityType\n" +
+        " id: ID\n" +
+        " displayName: String\n" +
+        "}\n";
+    defsJoined = defsJoined.replace(/type endpoint {[\s\S]*?}/g, '');
+    defsJoined = defsJoined + "\ntype endpoint {\n" +
+        " capability: String\n" +
+        " providerId: String\n" +
+        " providerName: String\n" +
+        " providerResourceId: String\n" +
+        " uri: String\n" +
+        " id: ID\n" +
+        " userAgent: String\n" +
+        "}\n";
+    defsJoined = defsJoined.replace(/enum ruleOperation {[\s\S]*?}/g, '');
+    defsJoined = defsJoined + "\nenum ruleOperation {\n" +
+        " equals \n" +
+        " notEquals \n" +
+        " contains \n" +
+        " notContains \n" +
+        " lessThan \n" +
+        " greaterThan \n" +
+        " startsWith \n" +
+        " unknownFutureValue \n" +
+        "}";
+    defsJoined = defsJoined.replace("charge: Decimal", "charge: String");
+    defsJoined = defsJoined.replace("connectionCharge: Decimal", "connectionCharge: String");
+
+    saveCodeToFile('src/build/schema.graphql', false, defsJoined);
     const resolverStr = generateResolverStr(dependence, entitySets, singletons, entities, complexTypes);
     saveCodeToFile('src/build/schema.js', true, resolverStr);
 }
