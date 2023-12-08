@@ -11,7 +11,7 @@ This is a *demo* that enables basic, read-only querying of the [Microsoft Graph 
 1. Clone the repository
 2. Install dependencies (`npm install`)
 3. Generate schema description and resolver code using `npm run build`
-4. Navigate to the [App Registration Portal](https://apps.dev.microsoft.com/), set up a [new web app](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration) with the following delegated API Permissions:
+4. Navigate to the [Azure Portal](https://portal.azure.com/), set up a [new App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration), choose "Accounts in any organizational directory (Multitenant)" and set the following delegated API Permissions:
    - *openid*
    - *profile*
    - *User.ReadWrite*
